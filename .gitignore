@@ -1,0 +1,8 @@
+﻿################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
+
+
+
+/iTemp Desktop/.vs/iTemp Desktop/v15
+/iTemp Desktop/iTemp Desktop/obj/Debug
