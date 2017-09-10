@@ -17,50 +17,20 @@ namespace iTemp_Desktop
         public Form1()
         {
             InitializeComponent();
-
-            progressBar1.Maximum = 100;
-            StartProgress();
-           
-
+            StartPosition = FormStartPosition.CenterScreen;
+            start();
         }
 
-       
 
-        async void StartProgress()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                if (i >= 99)
-                {
-                    i = 0;
-                }
-
-                progressBar1.Value = i;
-                await Task.Delay(2000);
-                label1.Text = Convert.ToString(i);
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //int i = 0;
-            label1.Text += " Klik";
-
-           
+        async void start() {
+            await Task.Delay(2000);
+            mainForm mainForm = new mainForm();
+            this.Visible = false;
+            mainForm.ShowDialog();
+            this.Dispose();
         }
     }
+    
 
-    public class VerticalProgressBar : System.Windows.Forms.ProgressBar
-    {
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.Style |= 0x04;
-                return cp;
-            }
-        }
-    }
 
 }
