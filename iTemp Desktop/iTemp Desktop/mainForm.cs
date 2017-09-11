@@ -17,6 +17,10 @@ namespace iTemp_Desktop
         int pompaCOLicznik = 0;
         int pompaCWULicznik = 0;
         int danePoczatkowe = 0;
+        string updateURL;
+        int licznikCO = 0;
+        int licznikCWU = 0;
+
         public mainForm()
         {
             InitializeComponent();
@@ -58,23 +62,25 @@ namespace iTemp_Desktop
         {
             try
             {
-                
+
                 modelJson odebraneDane = JsonConvert.DeserializeObject<modelJson>(result);
                 wykresCO.Value = odebraneDane.tempCO;
                 tempCOLabel.Text = Convert.ToString(odebraneDane.tempCO) + "°C";
                 wykresCWU.Value = odebraneDane.tempCWU;
                 tempCWULabel.Text = Convert.ToString(odebraneDane.tempCWU) + "°C";
-                zadanaTempLabel.Text = Convert.ToString(odebraneDane.tempCWUZad) + "°C"; 
+                zadanaTempLabel.Text = Convert.ToString(odebraneDane.tempCWUZad) + "°C";
                 tempAlarmLabel.Text = Convert.ToString(odebraneDane.tempAlarm) + "°C";
-                
+
                 if (danePoczatkowe == 0)
                 {
                     idZmiana = odebraneDane.idZmiana;
                     tempAlarmSet.Value = odebraneDane.tempAlarm;
-                    tempCWUSet.Value = odebraneDane.tempCWU;
+                    tempCWUSet.Value = odebraneDane.tempCWUZad;
                     pompaCOLicznik = odebraneDane.coPump;
                     pompaCWULicznik = odebraneDane.cwuPump;
                     trybPracyPomp.SelectedIndex = odebraneDane.selectedMode;
+                    licznikCO = odebraneDane.coPump;
+                    licznikCWU = odebraneDane.cwuPump;
                 }
                 if (odebraneDane.selectedMode == 3)
                 {
@@ -128,7 +134,8 @@ namespace iTemp_Desktop
     3--Tryb reczny
     4--Pompy CO i CWU
    */
-                switch(odebraneDane.selectedMode){
+                switch (odebraneDane.selectedMode)
+                {
                     case 0:
                         trybPracyLabel.Text = "Tryb Letni";
                         break;
@@ -179,21 +186,60 @@ namespace iTemp_Desktop
             }
         }
 
+
+        private async void setHttpAsync(string url)
+        {
+            using (HttpClientHandler ClientHandler = new HttpClientHandler())
+            using (HttpClient Client = new HttpClient(ClientHandler))
+            {
+                using (HttpResponseMessage ResponseMessage = await Client.GetAsync(url))
+                {
+                    if (ResponseMessage.StatusCode == HttpStatusCode.OK)
+                    {
+                        using (HttpContent Content = ResponseMessage.Content)
+                        {
+                            result = await Content.ReadAsStringAsync();
+
+                            if (result != null)
+                            {
+                                wczytajDane();
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            
+
             zapiszButton.Enabled = true;
         }
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
-            
+
             zapiszButton.Enabled = true;
         }
 
         private void zapiszButton_Click(object sender, EventArgs e)
         {
-            
+
+            try
+            {
+                idZmiana++;
+                updateURL = "http://www.scholawgradz.gbzl.pl/kontrolerCO/update.php?serialNumber=" + serialNumber + "&coPump=" + pompaCOLicznik + "&cwuPump=" + pompaCWULicznik + "&tempCO=" + wykresCO.Value + "&tempCWU=" + wykresCWU.Value + "&tempCWUZad=" + Convert.ToString(tempCWUSet.Value) + "&tempAlarm=" + Convert.ToString(tempAlarmSet.Value) + "&selectedMode=" + trybPracyPomp.SelectedIndex + "&timeOnOff=0&timeStart=0&timeStop=0&idZmiana=" + idZmiana;
+                setHttpAsync(updateURL);
+                MessageBox.Show("Dane zostały zmienione.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                danePoczatkowe = 0;
+                getHttpAsync(urlIndex);
+            }
+            catch
+            {
+                MessageBox.Show(updateURL, "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void trybPracyPomp_SelectedIndexChanged(object sender, EventArgs e)
@@ -203,7 +249,8 @@ namespace iTemp_Desktop
                 pompaCWUButton.Enabled = true;
                 pompaCOButton.Enabled = true;
             }
-            else {
+            else
+            {
                 pompaCWUButton.Enabled = false;
                 pompaCOButton.Enabled = false;
             }
@@ -212,35 +259,44 @@ namespace iTemp_Desktop
 
         private void pompaCOButton_Click(object sender, EventArgs e)
         {
-            if (pompaCOLicznik == 0)
+            if (licznikCO == 0)
             {
                 pompaCOButton.Text = "Pompa CO: OFF";
                 pompaCOButton.BackColor = Color.LightPink;
-                pompaCOLicznik++;
-            }
-            else {
+                licznikCO++;
                 pompaCOLicznik = 0;
+            }
+            else
+            {
+                pompaCOLicznik = 1;
                 pompaCOButton.Text = "Pompa CO: ON";
                 pompaCOButton.BackColor = Color.LightGreen;
-                
+                licznikCO = 0;
+
             }
+            
         }
 
         private void pompaCWUButton_Click(object sender, EventArgs e)
         {
-            if (pompaCOLicznik == 0)
+            if (licznikCWU == 0)
             {
-                pompaCWUButton.Text = "Pompa CO: OFF";
+                pompaCWUButton.Text = "Pompa CWU: OFF";
                 pompaCWUButton.BackColor = Color.LightPink;
-                pompaCWULicznik++;
-            }
-            else
-            {
                 pompaCWULicznik = 0;
-                pompaCWUButton.Text = "Pompa CO: ON";
+                licznikCWU++;
+            }
+            else 
+            {
+                pompaCWULicznik = 1;
+                licznikCWU = 0;
+                pompaCWUButton.Text = "Pompa CWU: ON";
                 pompaCWUButton.BackColor = Color.LightGreen;
 
             }
+
+
+
         }
     }
 
