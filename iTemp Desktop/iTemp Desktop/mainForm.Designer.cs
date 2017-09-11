@@ -43,15 +43,22 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tempAlarmSet = new System.Windows.Forms.NumericUpDown();
+            this.tempCWUSet = new System.Windows.Forms.NumericUpDown();
             this.licznikLabel = new System.Windows.Forms.Label();
+            this.zapiszButton = new System.Windows.Forms.Button();
             this.wykresCWU = new iTemp_Desktop.VerticalProgressBar();
             this.wykresCO = new iTemp_Desktop.VerticalProgressBar();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.trybPracyPomp = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.pompaCOButton = new System.Windows.Forms.Button();
+            this.pompaCWUButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tempAlarmSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tempCWUSet)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -209,14 +216,71 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.numericUpDown2);
-            this.groupBox2.Controls.Add(this.numericUpDown1);
+            this.groupBox2.Controls.Add(this.pompaCWUButton);
+            this.groupBox2.Controls.Add(this.pompaCOButton);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.trybPracyPomp);
+            this.groupBox2.Controls.Add(this.zapiszButton);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.tempAlarmSet);
+            this.groupBox2.Controls.Add(this.tempCWUSet);
             this.groupBox2.Location = new System.Drawing.Point(295, 13);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(209, 316);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ustawienia";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label7.Location = new System.Drawing.Point(6, 62);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(109, 20);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Temp. Alarm";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label6.Location = new System.Drawing.Point(6, 25);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(104, 20);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Temp. CWU";
+            // 
+            // tempAlarmSet
+            // 
+            this.tempAlarmSet.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tempAlarmSet.Location = new System.Drawing.Point(149, 56);
+            this.tempAlarmSet.Maximum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.tempAlarmSet.Name = "tempAlarmSet";
+            this.tempAlarmSet.Size = new System.Drawing.Size(54, 31);
+            this.tempAlarmSet.TabIndex = 0;
+            this.tempAlarmSet.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tempAlarmSet.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            // 
+            // tempCWUSet
+            // 
+            this.tempCWUSet.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tempCWUSet.Location = new System.Drawing.Point(149, 19);
+            this.tempCWUSet.Maximum = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.tempCWUSet.Name = "tempCWUSet";
+            this.tempCWUSet.Size = new System.Drawing.Size(54, 31);
+            this.tempCWUSet.TabIndex = 0;
+            this.tempCWUSet.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tempCWUSet.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // licznikLabel
             // 
@@ -226,6 +290,16 @@
             this.licznikLabel.Size = new System.Drawing.Size(35, 13);
             this.licznikLabel.TabIndex = 8;
             this.licznikLabel.Text = "label6";
+            // 
+            // zapiszButton
+            // 
+            this.zapiszButton.Location = new System.Drawing.Point(67, 287);
+            this.zapiszButton.Name = "zapiszButton";
+            this.zapiszButton.Size = new System.Drawing.Size(75, 23);
+            this.zapiszButton.TabIndex = 2;
+            this.zapiszButton.Text = "Zapisz";
+            this.zapiszButton.UseVisualStyleBackColor = true;
+            this.zapiszButton.Click += new System.EventHandler(this.zapiszButton_Click);
             // 
             // wykresCWU
             // 
@@ -241,33 +315,44 @@
             this.wykresCO.Size = new System.Drawing.Size(55, 149);
             this.wykresCO.TabIndex = 5;
             // 
-            // numericUpDown1
+            // trybPracyPomp
             // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.numericUpDown1.Location = new System.Drawing.Point(149, 19);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(54, 31);
-            this.numericUpDown1.TabIndex = 0;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.trybPracyPomp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.trybPracyPomp.FormattingEnabled = true;
+            this.trybPracyPomp.Location = new System.Drawing.Point(10, 122);
+            this.trybPracyPomp.Name = "trybPracyPomp";
+            this.trybPracyPomp.Size = new System.Drawing.Size(193, 21);
+            this.trybPracyPomp.TabIndex = 3;
+            this.trybPracyPomp.SelectedIndexChanged += new System.EventHandler(this.trybPracyPomp_SelectedIndexChanged);
             // 
-            // numericUpDown2
+            // label8
             // 
-            this.numericUpDown2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.numericUpDown2.Location = new System.Drawing.Point(149, 67);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(54, 31);
-            this.numericUpDown2.TabIndex = 0;
-            this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 106);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(89, 13);
+            this.label8.TabIndex = 4;
+            this.label8.Text = "Tryb pracy pomp:";
+            // 
+            // pompaCOButton
+            // 
+            this.pompaCOButton.Location = new System.Drawing.Point(7, 163);
+            this.pompaCOButton.Name = "pompaCOButton";
+            this.pompaCOButton.Size = new System.Drawing.Size(196, 27);
+            this.pompaCOButton.TabIndex = 5;
+            this.pompaCOButton.Text = "Pompa CO: ";
+            this.pompaCOButton.UseVisualStyleBackColor = true;
+            this.pompaCOButton.Click += new System.EventHandler(this.pompaCOButton_Click);
+            // 
+            // pompaCWUButton
+            // 
+            this.pompaCWUButton.Location = new System.Drawing.Point(7, 196);
+            this.pompaCWUButton.Name = "pompaCWUButton";
+            this.pompaCWUButton.Size = new System.Drawing.Size(196, 27);
+            this.pompaCWUButton.TabIndex = 5;
+            this.pompaCWUButton.Text = "Pompa CWU;";
+            this.pompaCWUButton.UseVisualStyleBackColor = true;
+            this.pompaCWUButton.Click += new System.EventHandler(this.pompaCWUButton_Click);
             // 
             // mainForm
             // 
@@ -286,8 +371,9 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tempAlarmSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tempCWUSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,7 +398,14 @@
         private System.Windows.Forms.TextBox trybPracyLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label licznikLabel;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown tempCWUSet;
+        private System.Windows.Forms.NumericUpDown tempAlarmSet;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button zapiszButton;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox trybPracyPomp;
+        private System.Windows.Forms.Button pompaCWUButton;
+        private System.Windows.Forms.Button pompaCOButton;
     }
 }
